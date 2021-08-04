@@ -1,14 +1,17 @@
 # libfledgling
-A collection of utilities written in C. Intentionally minimalistic. Licensed under `CC0-1.0`. If you need additional behaviour, hack it in.
+
+A collection of utilities written in C. Intentionally minimalistic. Licensed under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). If you need additional behaviour, hack it in.
 
 ## ini.h
+
 A line-by-line `.cfg` or `.ini` file reader.
 
 - ASCII only
 - Comments must be on their own line
-- Property values are strings and additional parsing is DIY
+- Property values are strings and additional parsing is [DIY](https://en.wikipedia.org/wiki/Do_it_yourself)
 
 ### Example
+
 ```C
 #include <stdio.h>
 #include "ini.h"
@@ -28,7 +31,7 @@ main(void)
 					inifile.section);
 			} else {
 				printf(
-					"Found property: \"%s\" is \"%s\" from \"%s\"\n",
+					"Found property: \"%s\" is \"%s\" under \"%s\"\n",
 					inifile.key,
 					inifile.value,
 					inifile.section);
@@ -43,9 +46,11 @@ main(void)
 ```
 
 ## list.h
+
 A generic array list data structure.
 
 ### Example
+
 ```C
 #include <stdio.h>
 #include <stdlib.h>
@@ -81,7 +86,7 @@ main(void)
 	listappend(&list, data2);
 
 	for (i = 0; i < list.count; i++) {
-		/* To retrieve data, cast to pointer of its type, then deref */
+		/* Cast entry to a pointer of its type and then deref it */
 		printf("Entry #%d is %d\n", i, *(int*)list.entries[i]);
 	}
 
@@ -96,3 +101,21 @@ main(void)
 	return 0;
 }
 ```
+
+## FAQ
+
+### What's up with the coding style?
+
+It's inspired by [Plan 9](https://github.com/plan9foundation/plan9) and encourages simplicity. But if you don't like it, change it.
+
+### Who is this library for?
+
+Myself. The aim is to take commonly reused code and simplify it for future projects and study.
+
+### Why are there no include guards?
+
+When headers in C don't include other headers and define only constants and declarations, conflicts don't happen. If you need include guards, add them.
+
+### Will you ever add *feature* to *x*?
+
+If I have a need for it, maybe. Otherwise, probably not. Implementations are intentionally naive to allow for easier modification and extension.
