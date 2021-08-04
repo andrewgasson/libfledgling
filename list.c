@@ -161,6 +161,9 @@ listremove(List *list, int index)
 {
 	int i;
 
+	if (index == -1)
+		return;
+
 	for (i = index; i < list->count - 1; i++)
 		list->entries[i] = list->entries[i + 1];
 
