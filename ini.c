@@ -20,6 +20,7 @@ void iniclose(Ini *ini)
 	memset(ini->key, '\0', IniStringSize);
 	memset(ini->value, '\0', IniStringSize);
 	fclose(ini->file);
+	ini->file = NULL;
 }
 
 /* Return IniEof, IniSection, or IniProperty. Skips comments and empty lines. */
