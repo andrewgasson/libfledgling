@@ -40,7 +40,7 @@ parsebegin:
 
 	trim(buffer);
 
-	if (isspace(buffer[0]) || buffer[0] == '#')
+	if (isspace(buffer[0]) || buffer[0] == '#' || buffer[0] == ';')
 		goto parsebegin;
 	
 	bufferlen = strnlen(buffer, IniStringSize);
