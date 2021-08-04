@@ -18,3 +18,4 @@ int listinsert(List*, int, void*);
 void listremove(List*, int);
 void listreverse(List*);
 void listswap(List*, int, int);
+int listtally(List, void*);

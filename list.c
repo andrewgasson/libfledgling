@@ -194,3 +194,19 @@ listswap(List *list, int index0, int index1)
 	list->entries[index0] = list->entries[index1];
 	list->entries[index1] = store;
 }
+
+int
+listtally(List list, void *entry)
+{
+	int i;
+	int tally;
+
+	tally = 0;
+
+	for (i = 0; i < list.count; i++) {
+		if (list.entries[i] == entry)
+			tally++;
+	}
+
+	return tally;
+}
