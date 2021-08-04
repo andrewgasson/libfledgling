@@ -50,6 +50,9 @@ parsebegin:
 
 		memset(ini->section, '\0', IniStringSize);
 
+		if (buffer[1] == ']')
+			return IniSection;
+
 		for (i = 1; i < bufferlen; i++) {
 			if (buffer[i] == ']')
 				break;
