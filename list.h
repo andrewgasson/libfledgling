@@ -19,3 +19,4 @@ void listremove(List*, int);
 void listreverse(List*);
 void listswap(List*, int, int);
 int listtally(List, void*);
+void listunique(List*, void*);

@@ -210,3 +210,20 @@ listtally(List list, void *entry)
 
 	return tally;
 }
+
+void
+listunique(List *list, void *entry)
+{
+	int start;
+	int end;
+
+	for (start = 0; start < list->count; start++) {
+		if (list->entries[start] == entry)
+			break;
+	}
+
+	for (end = list->count - 1; end > start; end--) {
+		if (list->entries[end] == entry)
+			listremove(list, end);
+	}
+}
