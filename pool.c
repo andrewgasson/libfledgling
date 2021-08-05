@@ -101,10 +101,7 @@ poolcreate(Pool *pool, int capacity, size_t sizeofentryvalue, int (*spawn)(void 
 void
 pooldespawn(Pool *pool, PoolHandle handle)
 {
-	assert(handle.index >= 0);
-	assert(handle.index < pool->capacity);
-
-	if (pool->entries[handle.index].reserved) {
+	if (poolhandleisvalid(pool, handle)) {
 		pool->count--;
 		pool->entries[handle.index].reserved = 0;
 		pool->despawn(pool->entries[handle.index].value);
@@ -141,7 +138,7 @@ pooldestroy(Pool *pool)
 }
 
 void
-poolforeach(Pool *pool, void (*update)(void *value))
+poolforeach(Pool *pool, void (*f)(void *value))
 {
 	int i;
 	int count;
@@ -150,7 +147,7 @@ poolforeach(Pool *pool, void (*update)(void *value))
 
 	for (i = 0; i < pool->capacity; i++) {
 		if (pool->entries[i].reserved) {
-			update(pool->entries[i].value);
+			f(pool->entries[i].value);
 			count++;
 		}
 
@@ -168,7 +165,7 @@ poolget(Pool *pool, PoolHandle handle)
 int
 poolhandleisvalid(Pool *pool, PoolHandle handle)
 {
-	/* Pool capacity is supposed to be constant, so assert for bounds check */
+	/* Pool capacity is supposed to be constant, so prefer assert for bounds */
 	assert(handle.index >= 0);
 	assert(handle.index < pool->capacity);
 
@@ -188,8 +185,10 @@ poolspawn(PoolHandle *outhandle, Pool *pool)
 				pool->lowestunreserved = i + 1;
 				pool->entries[i].reserved = 1;
 				pool->entries[i].version++;
+				*outhandle = makehandle(pool->entries[i].version, i);
 				return 1;
 			} else {
+				*outhandle = makehandle(-1, 0);
 				return 0;
 			}
 		}
