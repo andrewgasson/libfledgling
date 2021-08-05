@@ -21,15 +21,15 @@ listcompact(List *list)
 	if (list->count == list->capacity) {
 		return 1;
 	} else {
-		int r;
+		int remainder;
 		int newcapacity;
 		void **newentries;
 
-		r = list->count % list->growth;
+		remainder = list->count % list->growth;
 		newcapacity = list->count;
 
-		if (r != 0)
-			newcapacity += list->growth - r;
+		if (remainder != 0)
+			newcapacity += list->growth - remainder;
 
 		newentries = realloc(list->entries, sizeof(void*) * newcapacity);
 
