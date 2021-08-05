@@ -73,11 +73,8 @@ main(void)
 	*data1 = 32;
 	*data2 = 64;
 
-	/* On failure, values are zero'd and entries is NULL */
-	list = listalloc(2, 2);
-
-	if (!list.entries) {
-		printf("Allocation failed\n");
+	if (!listcreate(&list, 2, 2)) {
+		printf("List allocation failed\n");
 		return 0;
 	}
 
@@ -90,13 +87,14 @@ main(void)
 		printf("Entry #%d is %d\n", i, *(int*)list.entries[i]);
 	}
 
-	/* Always remove data from the list before freeing it */
+	/* Data ready to be freed should be remove from the list first */
 	listremove(&list, listindex(list, data0));
 	listremove(&list, listindex(list, data1));
 	listremove(&list, listindex(list, data2));
 	free(data2);
 	free(data1);
 	free(data0);
+	listdestroy(&list);
 
 	return 0;
 }

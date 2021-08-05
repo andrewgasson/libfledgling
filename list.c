@@ -1,30 +1,6 @@
+#include <assert.h>
 #include <stdlib.h>
 #include "list.h"
-
-List
-listalloc(int capacity, int growth)
-{
-	List ret;
-
-	ret.entries = malloc(sizeof(void*) * capacity);
-
-	if (ret.entries) {
-		int i;
-
-		ret.capacity = capacity;
-		ret.growth = growth;
-		ret.count = 0;
-
-		for (i = 0; i < ret.capacity; i++)
-			ret.entries[i] = NULL;
-	} else {
-		ret.capacity = 0;
-		ret.growth = growth;
-		ret.count = 0;
-	}
-
-	return ret;
-}
 
 int
 listappend(List *list, void *entry)
@@ -67,42 +43,72 @@ listcompact(List *list)
 	}
 }
 
-List
-listcopy(List other)
+int
+listcreate(List *outlist, int capacity, int growth)
 {
-	List ret;
+	assert(outlist != NULL);
+	assert(outlist->entries == NULL);
 
-	ret.entries = malloc(sizeof(void*) * other.capacity);
+	outlist->entries = malloc(sizeof(void*) * capacity);
 
-	if (ret.entries) {
+	if (outlist->entries) {
 		int i;
 
-		ret.capacity = other.capacity;
-		ret.growth = other.growth;
-		ret.count = other.count;
+		outlist->capacity = capacity;
+		outlist->growth = growth;
+		outlist->count = 0;
 
-		for (i = 0; i < ret.capacity; i++)
-			ret.entries[i] = other.entries[i];
+		for (i = 0; i < outlist->capacity; i++)
+			outlist->entries[i] = NULL;
+
+		return 1;
 	} else {
-		ret.capacity = 0;
-		ret.growth = 0;
-		ret.count = 0;
+		outlist->capacity = 0;
+		outlist->growth = growth;
+		outlist->count = 0;
+		return 0;
 	}
+}
 
-	return ret;
+int
+listcopy(List *dstlist, List srclist)
+{
+	assert(dstlist != NULL);
+	assert(dstlist->entries == NULL);
+
+	dstlist->entries = malloc(sizeof(void*) * srclist.capacity);
+
+	if (dstlist->entries) {
+		int i;
+
+		dstlist->capacity = srclist.capacity;
+		dstlist->growth = srclist.growth;
+		dstlist->count = srclist.count;
+
+		for (i = 0; i < dstlist->capacity; i++)
+			dstlist->entries[i] = srclist.entries[i];
+
+		return 1;
+	} else {
+		dstlist->capacity = 0;
+		dstlist->growth = 0;
+		dstlist->count = 0;
+		return 0;
+	}
 }
 
 void
-listfree(List *list)
+listdestroy(List *list)
 {
+	assert(list != NULL);
+	assert(list->entries == NULL);
+
 	list->capacity = 0;
 	list->growth = 0;
 	list->count = 0;
 
-	if (list->entries) {
-		free(list->entries);
-		list->entries = NULL;
-	}
+	free(list->entries);
+	list->entries = NULL;
 }
 
 int
