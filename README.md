@@ -2,6 +2,10 @@
 
 A collection of utilities written in C. Intentionally minimalistic. Licensed under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). If you need additional behaviour, hack it in.
 
+WARNING: ON HIATUS.
+
+Collections might have bugs and not work as describe. This is getting pushed out and published for reference and maybe future modification.
+
 ## ini.h
 
 A line-by-line `.cfg` or `.ini` file reader.
